@@ -14,9 +14,15 @@ function App() {
   const [fixed, setFixed] = React.useState(0);
   const [flexible, setFlexible] = React.useState(0);
 
-  const [isDark, setIsDark] = React.useState(true);
+  const isDarkLocalStorage = localStorage.getItem("theme") === "dark";
+  const [isDark, setIsDark] = React.useState(isDarkLocalStorage);
 
-  const darkTheme = createTheme({
+  const setIsDarkLocalStorage = (value: boolean) => {
+    localStorage.setItem("theme", value ? "dark" : "light");
+    setIsDark(value);
+  };
+
+  const theme = createTheme({
     type: isDark ? "dark" : "light",
     theme: {
       // colors: {...}, // optional
@@ -29,7 +35,7 @@ function App() {
   }, [sum, ratio]);
 
   return (
-    <NextUIProvider theme={darkTheme}>
+    <NextUIProvider theme={theme}>
       <Container>
         <Text
           h1
@@ -39,7 +45,7 @@ function App() {
             cursor: "pointer",
           }}
           weight="bold"
-          onClick={() => setIsDark(!isDark)}
+          onClick={() => setIsDarkLocalStorage(!isDark)}
         >
           HR 🦄
         </Text>
@@ -51,7 +57,7 @@ function App() {
             cursor: "pointer",
           }}
           weight="bold"
-          onClick={() => setIsDark(!isDark)}
+          onClick={() => setIsDarkLocalStorage(!isDark)}
         >
           Kalkulačka
         </Text>
